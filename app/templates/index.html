@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baymax</title>
+    <link rel="icon" href="/static/images/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app">
+
+        <!-- Nav -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <div class="baymax-logo">
+                    <div class="baymax-face">
+                        <div class="baymax-eyes"></div>
+                    </div>
+                </div>
+                <span class="brand-name">Baymax</span>
+                <span class="brand-tag">your personal healthcare companion</span>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchTab('dashboard')" id="nav-dashboard">Insights</button>
+                <button class="nav-tab" onclick="switchTab('chat')" id="nav-chat">Assistant</button>
+                <button class="nav-tab" onclick="switchTab('symptoms')" id="nav-symptoms">Symptom Checker</button>
+                <button class="nav-tab" onclick="switchTab('report')" id="nav-report">Report Scanner</button>
+            </div>
+            <div class="nav-user" style="position:relative;">
+                <div class="baymax-logo small">
+                    <div class="baymax-face">
+                        <div class="baymax-eyes"></div>
+                    </div>
+                </div>
+                <div id="userMenu" class="user-dropdown">
+                    <div class="user-dropdown-header">
+                        <div class="user-dropdown-name">Hello there</div>
+                        <div class="user-dropdown-sub">Your health companion</div>
+                    </div>
+                    <button onclick="switchTab('dashboard')" class="menu-item">Insights</button>
+                    <button onclick="switchTab('chat')" class="menu-item">Assistant</button>
+                    <button onclick="switchTab('symptoms')" class="menu-item">Symptom Checker</button>
+                    <button onclick="switchTab('report')" class="menu-item">Report Scanner</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Pages -->
+        <main class="main">
+
+            <!-- Dashboard -->
+            <div class="tab active" id="tab-dashboard">
+                <div class="dashboard-layout">
+
+                    <!-- LEFT: Baymax welcome panel -->
+                    <div class="dash-left-panel">
+                        <div class="baymax-hi-img">
+                            <img src="/static/images/baymax-hi.png" alt="Baymax waving" />
+                        </div>
+                        <h2 class="dash-hello">Hi, I'm Baymax.</h2>
+                        <p class="dash-subtext">Feeling off today? Tell me what's going on. I'm here to listen, help you understand your symptoms, and make sense of your health reports.</p>
+                    </div>
+
+                    <!-- RIGHT: Cards grid -->
+                    <div class="dash-right-panel">
+
+                        <!-- Sleep Quality -->
+                        <div class="dash-widget wide-widget" id="sleepWidget">
+                            <div class="widget-header">
+                                <div class="widget-icon blue-icon"></div>
+                                <span class="widget-title">Sleep Quality</span>
+                                <span class="widget-meta" id="sleepMeta">Last Night</span>
+                            </div>
+                            <div id="sleepInputState">
+                                <p class="widget-prompt">What time did you sleep and wake up?</p>
+                                <div class="sleep-time-inputs">
+                                    <div class="time-input-wrap">
+                                        <label>Bedtime</label>
+                                        <input type="time" id="sleepTime" value="23:00" />
+                                    </div>
+                                    <div class="time-input-wrap">
+                                        <label>Wake up</label>
+                                        <input type="time" id="wakeTime" value="07:00" />
+                                    </div>
+                                    <button class="sleep-submit-btn" onclick="calculateSleep()">Show</button>
+                                </div>
+                            </div>
+                            <div id="sleepResultState" style="display:none">
+                                <div class="sleep-duration-row">
+                                    <span class="sleep-duration" id="sleepDuration">—</span>
+                                    <span class="sleep-quality-label" id="sleepQualityLabel"></span>
+                                </div>
+                                <div class="sleep-visual">
+                                    <div class="sleep-bar-wrap">
+                                        <div class="sleep-phase" style="width:15%;background:#c7d2fe;"><span>Light</span></div>
+                                        <div class="sleep-phase" style="width:50%;background:#818cf8;"><span>Deep</span></div>
+                                        <div class="sleep-phase" style="width:20%;background:#a5b4fc;"><span>REM</span></div>
+                                        <div class="sleep-phase" style="width:15%;background:#e0e7ff;"><span>Awake</span></div>
+                                    </div>
+                                    <div class="sleep-times-row">
+                                        <span id="sleepTimeLeft">—</span>
+                                        <span id="sleepTimeRight">—</span>
+                                    </div>
+                                </div>
+                                <button class="sleep-reset-btn" onclick="resetSleep()">Change times</button>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div class="dash-widget ai-insight-widget" id="aiInsight1">
+                            <div class="widget-header">
+                                <span class="ai-tag">AI INSIGHT</span>
+                            </div>
+                            <h4 class="insight-topic" id="insightTopic1">Did You Know?</h4>
+                            <p class="insight-text" id="insightText1">Loading...</p>
+                        </div>
+
+                        <div class="dash-widget ai-insight-widget" id="aiInsight2">
+                            <div class="widget-header">
+                                <span class="ai-tag">AI INSIGHT</span>
+                            </div>
+                            <h4 class="insight-topic" id="insightTopic2">Today's Tip</h4>
+                            <p class="insight-text" id="insightText2">Loading...</p>
+                        </div>
+
+                        <div class="dash-widget ai-insight-widget" id="aiInsight3">
+                            <div class="widget-header">
+                                <span class="ai-tag">AI INSIGHT</span>
+                            </div>
+                            <h4 class="insight-topic" id="insightTopic3">Quick Reminder</h4>
+                            <p class="insight-text" id="insightText3">Loading...</p>
+                        </div>
+
+                        <div class="dash-widget wide-widget">
+                            <div class="widget-header">
+                                <span class="ai-tag">ASK BAYMAX</span>
+                            </div>
+                            <h4 class="insight-topic" style="margin-bottom:12px;">Got a quick health question?</h4>
+                            <div style="display:flex;gap:10px;">
+                                <input type="text" id="dashQuestion" 
+                                    placeholder="e.g. Is 7 hours of sleep enough?" 
+                                    class="widget-input"
+                                    onkeydown="if(event.key==='Enter') askDashQuestion()" />
+                                <button class="widget-mini-btn" onclick="askDashQuestion()">Ask</button>
+                            </div>
+                            <div id="dashAnswer" style="display:none;margin-top:14px;font-size:13.5px;color:#475569;line-height:1.7;padding:14px;background:#f0f4ff;border-radius:12px;"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat -->
+            <div class="tab" id="tab-chat">
+                <div class="chat-wrap">
+                    <div class="chat-box" id="chatBox">
+                        <div class="message assistant">
+                            <div class="baymax-logo small">
+                                <div class="baymax-face">
+                                    <div class="baymax-eyes"></div>
+                                </div>
+                            </div>
+                            <div class="bubble">Hello. I am Baymax, your personal healthcare companion.</div>
+                        </div>
+                        <div class="message assistant">
+                            <div class="baymax-logo small">
+                                <div class="baymax-face">
+                                    <div class="baymax-eyes"></div>
+                                </div>
+                            </div>
+                            <div class="bubble">How are you feeling today, friend?</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-wrap">
+                        <input type="text" id="questionInput" placeholder="Tell Baymax how you feel..." />
+                        <button id="sendBtn" onclick="sendQuestion()">&#9658;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Symptoms -->
+            <div class="tab" id="tab-symptoms">
+                <div class="symptom-wrap">
+                    <div class="baymax-figure-card">
+                        <h3>Where does it hurt?</h3>
+                        <p id="regionLabel">Tap on my body to select an area.</p>
+                        <div class="baymax-container">
+                            <img src="/static/images/screen.png" alt="Baymax" class="baymax-image" />
+                            
+                            <svg class="baymax-overlay" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
+                                <ellipse class="body-part" data-region="head" cx="110" cy="88" rx="42" ry="32" onclick="selectRegion('head')"/>
+                                
+                                <ellipse class="body-part" data-region="chest" cx="110" cy="145" rx="38" ry="35" onclick="selectRegion('chest')"/>
+                                
+                                <ellipse class="body-part" data-region="abdomen" cx="110" cy="205" rx="52" ry="42" onclick="selectRegion('abdomen')"/>
+                                
+                                <ellipse class="body-part" data-region="left arm" cx="54" cy="175" rx="16" ry="38" onclick="selectRegion('left arm')"/>
+                                <ellipse class="body-part" data-region="right arm" cx="166" cy="175" rx="16" ry="38" onclick="selectRegion('right arm')"/>
+                                
+                                <ellipse class="body-part" data-region="left leg" cx="82" cy="250" rx="18" ry="25" onclick="selectRegion('left leg')"/>
+                                <ellipse class="body-part" data-region="right leg" cx="138" cy="250" rx="18" ry="25" onclick="selectRegion('right leg')"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="symptom-right">
+                        <div class="symptom-input-card">
+                            <h3>Describe your symptoms</h3>
+                            <div class="symptom-search">
+                                <input type="text" id="symptomInput" placeholder="e.g., Headache, sore throat..."
+                                    onkeydown="if(event.key==='Enter') addSymptom()" />
+                            </div>
+                            <div class="symptom-tags" id="symptomTags"></div>
+                        </div>
+                        <div class="symptom-result-card" id="symptomResult" style="display:none">
+                            <div class="result-header">
+                                <div class="baymax-logo small">
+                                    <div class="baymax-face"><div class="baymax-eyes"></div></div>
+                                </div>
+                                <span>My thoughts so far...</span>
+                            </div>
+                            <div id="resultContent"></div>
+                        </div>
+                        <button class="generate-btn" onclick="analyzeSymptoms()" id="analyzeBtn">Generate Full Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report -->
+            <div class="tab" id="tab-report">
+                <div class="report-wrap">
+                    <div class="upload-card" onclick="document.getElementById('fileInput').click()">
+                        <div class="baymax-logo medium">
+                            <div class="baymax-face"><div class="baymax-eyes"></div></div>
+                        </div>
+                        <h2>Drop your reports here</h2>
+                        <p>Upload lab results, imaging, or clinical notes. I'll summarize them for you gently.</p>
+                        <button class="browse-btn" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Browse Files</button>
+                        <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" hidden onchange="handleFile(event)" />
+                    </div>
+                    <div class="report-result" id="reportResult" style="display:none"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
