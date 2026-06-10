@@ -476,7 +476,7 @@ async function askDashQuestion() {
         const res = await fetch('/ask', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: q })
+            body: JSON.stringify({ question: `Answer this health question in 2-3 lines. Be warm, friendly and informative. No bullet points, just a short conversational answer: ${q}` })
         });
         const data = await res.json();
         answerEl.innerHTML = data.answer
