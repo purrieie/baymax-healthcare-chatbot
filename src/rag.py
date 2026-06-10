@@ -21,10 +21,16 @@ def answer_question(query, collection, model, llm):
     context = "\n\n".join([f"[PMID {h['pmid']}]: {h['text']}" for h in hits])
     
     # Step 3: prompt
-    prompt = f"""You are a helpful clinical assistant. Answer clearly and simply.
-Use bullet points where helpful. Keep language simple and easy to understand.
-Cite PMID numbers inline like (PMID: 12345).
-If information is not in context, say so briefly.
+    prompt = f"""You are a clinical assistant.keep the tone warm and conversational. dont use technical jargon. don't diagnose with extreme conditions immediately, keep tone warm. Answer the question based on the context below.
+
+Format your answer like this:
+- console the patient first, then answer the question in a clear and concise manner.
+- Start with a one-line summary, 
+- Use clear bullet points
+- Keep language simple
+- End with: "📄 Based on: PMID xxxxx"
+
+If not enough info, say: "I don't have enough information on this topic."
 
 
 Context:
