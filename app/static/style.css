@@ -193,11 +193,14 @@ body {
     padding: 48px 32px;
     text-align: center;
     gap: 20px;
+    overflow-y: auto;  /* ADD THIS */
 }
 
 .baymax-hi-img {
-    width: 450px;
-    height: 450px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    max-width: 280px;
     background: #dbeafe;
     border-radius: 28px;
     overflow: hidden;
