@@ -1,3 +1,4 @@
+<img width="1710" height="940" alt="dashboard" src="https://github.com/user-attachments/assets/ac5e7b83-a645-40bb-8615-9e9d4217adb0" />
 # 🤖 Baymax — Your Personal Healthcare Assistant
 
 > A RAG-powered clinical AI assistant built with FastAPI, ChromaDB, and LangChain. Baymax helps users understand their symptoms, scan medical reports, and get AI-generated health insights — all in a clean, friendly interface inspired by the Disney character.
@@ -227,14 +228,25 @@ Open your browser at `http://localhost:8000`
 ### Dashboard
 The main insights page with sleep tracker, AI health cards, and quick-ask widget.
 
+<img width="1710" height="940" alt="dashboard" src="https://github.com/user-attachments/assets/0753ec10-2fb3-4cd3-9e52-4865bf1d2857" />
+
+
 ### AI Assistant
 Full chat interface with source citations and auto-generated data visualizations.
+
+<img width="1710" height="942" alt="chat" src="https://github.com/user-attachments/assets/800a756c-41ab-4c11-89f6-e32a7aa247af" />
+
 
 ### Symptom Checker
 Interactive body map with AI-powered condition analysis.
 
+<img width="1710" height="940" alt="symptom" src="https://github.com/user-attachments/assets/cd7f7e63-145e-46f6-ae04-54d85ca4c95b" />
+
+
 ### Report Scanner
 Upload medical reports and get structured NORMAL/ABNORMAL breakdowns with a visual summary chart.
+
+<img width="1710" height="942" alt="report" src="https://github.com/user-attachments/assets/005074c9-ef42-4fc6-8b4c-547a8a2ac938" />
 
 ---
 ## 🏗️ Architecture
