@@ -8,3 +8,4 @@ venv/
 dchroma_db/
 app_streamlit_old.py
 pyvenv.cfg
+data/chroma/
