@@ -240,6 +240,7 @@ Upload medical reports and get structured NORMAL/ABNORMAL breakdowns with a visu
 ## 🏗️ Architecture
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#dbeafe', 'primaryTextColor': '#1e3a5f', 'primaryBorderColor': '#93c5fd', 'lineColor': '#93c5fd', 'secondaryColor': '#eff6ff', 'tertiaryColor': '#f0f9ff'}}}%%
 flowchart TD
     User(["User"])
 
