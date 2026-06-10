@@ -1,21 +1,19 @@
 from sentence_transformers import SentenceTransformer
 import chromadb
+import os
+
+CHROMA_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "chroma")
 
 def build_vectorstore(chunks, collection_name="clinical_rag"):
-    # Load embedding model
     model = SentenceTransformer("all-MiniLM-L6-v2")
+    client = chromadb.PersistentClient(path=CHROMA_PATH)
     
-    # Setup ChromaDB (saves locally)
-    client = chromadb.PersistentClient(path="./data/chroma")
-    
-    # Fresh collection har baar
     try:
         client.delete_collection(collection_name)
     except:
         pass
     collection = client.create_collection(collection_name)
     
-    # Embed and store in batches
     texts = [c["text"] for c in chunks]
     ids = [c["chunk_id"] for c in chunks]
     metadatas = [{"pmid": c["pmid"], "source": c.get("source", "unknown")} for c in chunks]
@@ -23,7 +21,6 @@ def build_vectorstore(chunks, collection_name="clinical_rag"):
     print("Embedding chunks...")
     embeddings = model.encode(texts, show_progress_bar=True).tolist()
 
-    # Add in batches of 2000
     batch_size = 2000
     for i in range(0, len(texts), batch_size):
         collection.add(
@@ -39,9 +36,9 @@ def build_vectorstore(chunks, collection_name="clinical_rag"):
 
 
 def get_vectorstore(collection_name="clinical_rag"):
-    client = chromadb.PersistentClient(path="./data/chroma")
+    client = chromadb.PersistentClient(path=CHROMA_PATH)
     model = SentenceTransformer("all-MiniLM-L6-v2")
-    collection = client.get_collection(collection_name)
+    collection = client.get_or_create_collection(collection_name)
     return collection, model
 
 
