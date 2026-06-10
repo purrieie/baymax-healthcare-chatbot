@@ -1,4 +1,3 @@
-<img width="1710" height="940" alt="dashboard" src="https://github.com/user-attachments/assets/ac5e7b83-a645-40bb-8615-9e9d4217adb0" />
 # 🤖 Baymax — Your Personal Healthcare Assistant
 
 > A RAG-powered clinical AI assistant built with FastAPI, ChromaDB, and LangChain. Baymax helps users understand their symptoms, scan medical reports, and get AI-generated health insights — all in a clean, friendly interface inspired by the Disney character.
