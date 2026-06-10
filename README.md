@@ -237,53 +237,50 @@ Interactive body map with AI-powered condition analysis.
 Upload medical reports and get structured NORMAL/ABNORMAL breakdowns with a visual summary chart.
 
 ---
-## Architecture
+## 🏗️ Architecture
 
+```mermaid
 flowchart TD
-    User(["👤 User"])
+    User(["User"])
 
-    subgraph Frontend ["Frontend (Browser)"]
-        UI["Baymax UI\nHTML + CSS + JS"]
-        Chat["Assistant Tab"]
+    subgraph Frontend["Frontend"]
+        UI["Baymax UI"]
+        Chat["Assistant"]
         Symptom["Symptom Checker"]
         Report["Report Scanner"]
-        Dashboard["Insights Dashboard"]
+        Dashboard["Dashboard"]
     end
 
-    subgraph Backend ["Backend (FastAPI)"]
-        API["FastAPI Server\napp/main.py"]
-        RAG["RAG Pipeline\nsrc/rag.py"]
-        VS["Vector Store\nsrc/vectorstore.py"]
-        Ingest["Ingest\nsrc/ingest.py"]
+    subgraph Backend["Backend - FastAPI"]
+        API["FastAPI Server"]
+        RAG["RAG Pipeline"]
+        VS["Vector Store"]
     end
 
-    subgraph Storage ["Storage"]
-        Chroma[("ChromaDB\ndata/chroma/")]
-        Docs["Clinical Docs\ndata/")]
+    subgraph Storage["Storage"]
+        Chroma[("ChromaDB")]
+        Docs["Clinical Docs"]
     end
 
-    subgraph External ["External APIs"]
-        Groq["Groq API\nLlama 3.1"]
-        Embed["SentenceTransformers\nall-MiniLM-L6-v2"]
+    subgraph External["External"]
+        Groq["Groq - Llama 3.1"]
+        Embed["SentenceTransformers"]
     end
 
     User --> UI
     UI --> Chat & Symptom & Report & Dashboard
-    Chat -->|"POST /ask"| API
-    Symptom -->|"POST /ask"| API
-    Report -->|"POST /scan-report"| API
-    Dashboard -->|"GET /insights"| API
-
+    Chat -->|POST /ask| API
+    Symptom -->|POST /ask| API
+    Report -->|POST /scan-report| API
+    Dashboard -->|GET /insights| API
     API --> RAG
     RAG --> VS
-    RAG -->|"Generate answer"| Groq
-    VS -->|"Semantic search"| Chroma
-    VS -->|"Embed query"| Embed
-
-    Ingest --> Docs
-    Ingest --> Embed
-    Ingest --> Chroma
-
+    RAG --> Groq
+    VS --> Chroma
+    VS --> Embed
+    Docs --> Embed
+    Embed --> Chroma
+```
 ---
 
 ## ⚠️ Disclaimer
